@@ -1,0 +1,73 @@
+<?php /* Smarty version Smarty-3.1.21-dev, created on 2015-11-12 13:26:17
+         compiled from ".\templates\printLicenseBody.tpl" */ ?>
+<?php /*%%SmartyHeaderCode:2225555d352cd58ac08-39732051%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+$_valid = $_smarty_tpl->decodeProperties(array (
+  'file_dependency' => 
+  array (
+    '2ea3558cd5561554c5f0af1f76c3e490d200d6e3' => 
+    array (
+      0 => '.\\templates\\printLicenseBody.tpl',
+      1 => 1447349152,
+      2 => 'file',
+    ),
+  ),
+  'nocache_hash' => '2225555d352cd58ac08-39732051',
+  'function' => 
+  array (
+  ),
+  'version' => 'Smarty-3.1.21-dev',
+  'unifunc' => 'content_55d352cd60afe1_94660682',
+  'variables' => 
+  array (
+    'employeeName' => 0,
+    'certList' => 0,
+    'key' => 0,
+    'item' => 0,
+  ),
+  'has_nocache_code' => false,
+),false); /*/%%SmartyHeaderCode%%*/?>
+<?php if ($_valid && !is_callable('content_55d352cd60afe1_94660682')) {function content_55d352cd60afe1_94660682($_smarty_tpl) {?>      <div class="col-sm-4 badged">
+          <div style="height: 320px; width: 100%;">
+<div style="text-align:center; margin-top: 20px">
+    <img src="images/Employee-License-Logo.png" />
+    <h4 style="font-weight:bold">Motorized Equipment License</h4>
+</div>
+           
+          
+<div id="name-area"  style="text-align:center;border-bottom: 1px solid #c0c0c0;padding-bottom: 4px; padding-top: 6px">
+    <?php echo $_smarty_tpl->tpl_vars['employeeName']->value;?>
+
+</div>
+          
+<table width="100%" style="font-size:89%">
+    <thead>
+        <tr>
+            <th width="44%">Equipment</th>
+            <th width="28%">Date Of Class</th>
+            <th width="28%">Date of Eval</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php  $_smarty_tpl->tpl_vars['item'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['item']->_loop = false;
+ $_smarty_tpl->tpl_vars['key'] = new Smarty_Variable;
+ $_from = $_smarty_tpl->tpl_vars['certList']->value; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
+foreach ($_from as $_smarty_tpl->tpl_vars['item']->key => $_smarty_tpl->tpl_vars['item']->value) {
+$_smarty_tpl->tpl_vars['item']->_loop = true;
+ $_smarty_tpl->tpl_vars['key']->value = $_smarty_tpl->tpl_vars['item']->key;
+?>
+            <?php $_smarty_tpl->tpl_vars['last'] = new Smarty_variable($_smarty_tpl->tpl_vars['key']->value, null, 0);?>
+         <tr>
+            <td><?php echo $_smarty_tpl->tpl_vars['item']->value->shortname;?>
+</td>
+            <td style="white-space: nowrap"><?php echo $_smarty_tpl->tpl_vars['item']->value->firstcompleted;?>
+</td>
+           <td style="white-space: nowrap"><?php echo $_smarty_tpl->tpl_vars['item']->value->lastcompleted;?>
+</td>
+        </tr>
+        <?php } ?>
+    </tbody>
+</table>
+     </div>       
+      </div>
+
+       <?php }} ?>

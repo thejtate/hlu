@@ -1,0 +1,48 @@
+Be sure to add these after install:
+insert into mdl_block_incident_cert_status (id,cert_status,deleted) VALUES (1,'Active',0);
+insert into mdl_block_incident_cert_status (id,cert_status,deleted) VALUES (2,'Inactive',0);
+insert into mdl_block_incident_cert_status (id,cert_status,deleted) VALUES (3,'Suspended',0);
+insert into mdl_block_incident_cert_status (id,cert_status,deleted) VALUES (4,'Revoked',0);
+insert into mdl_block_incident_cert_status (id,cert_status,deleted) VALUES (5,'Expired',0);
+
+
+insert into mdl_block_incident_class VALUES ('A',10,0,0);
+insert into mdl_block_incident_class VALUES ('B',5,365,0);
+insert into mdl_block_incident_class VALUES ('C',3,180,0);
+insert into mdl_block_incident_class VALUES ('D',2,90,0);
+insert into mdl_block_incident_class VALUES ('E',1,60,0);
+
+insert into mdl_block_incident_thresh values (8,3);
+insert into mdl_block_incident_thresh values (10,4);
+
+insert into ttra_block_incident_cert_status (id,cert_status,deleted) VALUES (1,'Active',0);
+insert into ttra_block_incident_cert_status (id,cert_status,deleted) VALUES (2,'Inactive',0);
+insert into ttra_block_incident_cert_status (id,cert_status,deleted) VALUES (3,'Suspended',0);
+insert into ttra_block_incident_cert_status (id,cert_status,deleted) VALUES (4,'Revoked',0);
+insert into ttra_block_incident_cert_status (id,cert_status,deleted) VALUES (5,'Expired',0);
+
+
+insert into ttra_block_incident_class VALUES ('A',10,0,0);
+insert into ttra_block_incident_class VALUES ('B',5,365,0);
+insert into ttra_block_incident_class VALUES ('C',3,180,0);
+insert into ttra_block_incident_class VALUES ('D',2,90,0);
+insert into ttra_block_incident_class VALUES ('E',1,60,0);
+
+insert into ttra_block_incident_thresh values (8,3);
+insert into ttra_block_incident_thresh values (10,4);
+
+insert into qattra_block_incident_cert_status (id,cert_status,deleted) VALUES (1,'Active',0);
+insert into qattra_block_incident_cert_status (id,cert_status,deleted) VALUES (2,'Inactive',0);
+insert into qattra_block_incident_cert_status (id,cert_status,deleted) VALUES (3,'Suspended',0);
+insert into qattra_block_incident_cert_status (id,cert_status,deleted) VALUES (4,'Revoked',0);
+insert into qattra_block_incident_cert_status (id,cert_status,deleted) VALUES (5,'Expired',0);
+
+
+insert into qattra_block_incident_class VALUES ('A',10,0,0);
+insert into qattra_block_incident_class VALUES ('B',5,365,0);
+insert into qattra_block_incident_class VALUES ('C',3,180,0);
+insert into qattra_block_incident_class VALUES ('D',2,90,0);
+insert into qattra_block_incident_class VALUES ('E',1,60,0);
+
+insert into qattra_block_incident_thresh values (8,3);
+insert into qattra_block_incident_thresh values (10,4);

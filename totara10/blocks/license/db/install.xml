@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="blocks/license/db" VERSION="20150605" COMMENT="XMLDB file for Moodle blocks/license"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd">
+  <TABLES>
+    <TABLE NAME="block_license_instructor" COMMENT="instructor list">
+      <FIELDS>
+       <FIELD NAME="id" TYPE="int" LENGTH="3" NOTNULL="true" SEQUENCE="true"/>
+       <FIELD NAME="firstname" TYPE="text" LENGTH="25" NOTNULL="true" SEQUENCE="false" COMMENT="instructor firstname"/>
+       <FIELD NAME="lastname" TYPE="text" LENGTH="25" NOTNULL="true" SEQUENCE="false" COMMENT="instructor lastname"/>
+       <FIELD NAME="deleted" TYPE="int" LENGTH="1" NOTNULL="true" SEQUENCE="false" COMMENT="deleted flag"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="block_license_emp_sched" COMMENT="employee course schedule list">
+      <FIELDS>
+       <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+       <FIELD NAME="userid" TYPE="int" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="user id"/>
+       <FIELD NAME="instructorid" TYPE="int" LENGTH="3" NOTNULL="false" SEQUENCE="false" COMMENT="block license instructor id"/>
+       <FIELD NAME="roomid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="face to face room id"/>
+       <FIELD NAME="startdate" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="start datetime of course"/>       
+       <FIELD NAME="courseid" TYPE="int" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="course id"/>
+       <FIELD NAME="certifid" TYPE="int" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="certification id"/>
+       <FIELD NAME="certifpath" TYPE="int" LENGTH="1" NOTNULL="true" SEQUENCE="false" COMMENT="certification path-matches prog_courseset (1-new or 2-recert)"/>
+       <FIELD NAME="deleted" TYPE="int" LENGTH="1" NOTNULL="true" SEQUENCE="false" COMMENT="deleted flag"/>      
+       <FIELD NAME="review" TYPE="int" LENGTH="1" NOTNULL="true" SEQUENCE="false" COMMENT="review option"/>      
+        
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+  </TABLES>  
+</XMLDB>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="blocks/incident/db" VERSION="20150302" COMMENT="XMLDB file for Moodle blocks/incident"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd">
+  <TABLES>
+    <TABLE NAME="block_incident" COMMENT="incident information">
+      <FIELDS>
+       <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+       <FIELD NAME="user_id" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="user that had the incident"/>
+       <FIELD NAME="createby" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="person that created the incident report"/>
+       <FIELD NAME="incident_datetime" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="date and time of incident"/>
+       <FIELD NAME="description" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Description of incident"/>
+       <FIELD NAME="points" TYPE="int" LENGTH="3" NOTNULL="false" SEQUENCE="false" COMMENT="Points assigned to incident"/>
+       <FIELD NAME="expires_date" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="date incident report drops off record"/>
+       <FIELD NAME="deleted" TYPE="int" LENGTH="1" NOTNULL="false" SEQUENCE="false" COMMENT="deleted flag"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+     <TABLE NAME="block_incident_class" COMMENT="incident classifications">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="classification" TYPE="char" LENGTH="2" NOTNULL="false" SEQUENCE="false" COMMENT="Type of classification"/>
+        <FIELD NAME="points" TYPE="int" LENGTH="3" NOTNULL="false" SEQUENCE="false" COMMENT="Number of points received from incident"/>
+        <FIELD NAME="expire_days" TYPE="int" LENGTH="3" NOTNULL="false" SEQUENCE="false" COMMENT="Number of days until incident dissappears from record"/>
+        <FIELD NAME="deleted" TYPE="int" LENGTH="1" NOTNULL="false" SEQUENCE="false" COMMENT="deleted flag"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="block_incident_cert_status" COMMENT="certification statuses">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="cert_status" TYPE="char" LENGTH="50" NOTNULL="false" SEQUENCE="false" COMMENT="certification statuses"/>
+        <FIELD NAME="deleted" TYPE="int" LENGTH="1" NOTNULL="false" SEQUENCE="false" COMMENT="deleted flag"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>     
+    </TABLE>
+    
+    <TABLE NAME="block_incident_thresh" COMMENT="incident susp/revoke point threshold">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="point_threshold" TYPE="int" LENGTH="2" NOTNULL="false" SEQUENCE="false" COMMENT="threshold for points to get a certian status"/>
+        <FIELD NAME="cert_status_id" TYPE="int" LENGTH="1" NOTNULL="false" SEQUENCE="false" COMMENT="certification status id"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    
+    
+    
+    <TABLE NAME="block_incident_certif" COMMENT="certifications tied to incident">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="user_id" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="user that had the incident"/>
+        <FIELD NAME="certif_completion_id" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="completed certification id"/>
+        <FIELD NAME="incident_id" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="incident"/>           
+        <FIELD NAME="createby" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="user that created record"/>
+        <FIELD NAME="createdate" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="time user created record"/>
+        <FIELD NAME="deleted" TYPE="int" LENGTH="1" NOTNULL="false" SEQUENCE="false" COMMENT="deleted flag"/>
+       </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE> 
+      <TABLE NAME="block_incident_certif_info" COMMENT="certifications affected by incident">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="user_id" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="user that had the incident"/>
+        <FIELD NAME="certif_completion_id" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="completed certification id"/>
+        <FIELD NAME="cert_status_id" TYPE="int" LENGTH="1" NOTNULL="false" SEQUENCE="false" COMMENT="certification status"/>    
+         <FIELD NAME="suspension_date_ends" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="date suspension ends"/>   
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>  
+  </TABLES>
+  
+</XMLDB>

@@ -1,0 +1,162 @@
+<?php
+require_once('includes.php');
+
+$PAGE->navbar->ignore_active();
+$PAGE->navbar->add('License Management Menu','view.php');
+$PAGE->navbar->add('View Instructor Stats');
+
+#set page header
+require_capability('block/license:viewpages', context_course::instance($COURSE->id));
+$PAGE->set_url('/blocks/license/view_instructor_test_stats.php', array());
+$PAGE->set_heading(get_string('license', 'block_license'));
+
+//Instantiate simplehtml_form 
+$mform = new instructor_test_stats_form();
+
+if (!$mform->is_cancelled()) {
+    #set form values
+    $userid = optional_param('userid','', PARAM_INT);
+    $courseid=optional_param('courseid','',PARAM_INT);
+
+    $userWhere=null;
+    $userParam=null;
+    $courseWhere='';
+    $courseParam='';
+    if($userid>0){
+        $userParam['userid']=$userid;
+        $userWhere=" and userid=:userid";
+    }
+
+    if($courseid>0){
+        $courseParam['courseid']=$courseid;
+        $courseWhere=" and e.id=:courseid";
+    }
+}
+else{ 
+      redirect('view.php');
+}
+
+
+echo $OUTPUT->header();
+echo html_writer::tag("h2", "Instructor Testing Statistics");
+
+$mform->display();
+
+$sql="select distinct userid,lastname,firstname"
+       ." from {user} a"
+       ." right  join {role_assignments} b on b.userid=a.id "
+       ." right join {role} c on c.id=b.roleid "
+       ." where archetype='teacher' "
+       . "and a.id is not null" 
+       . $userWhere
+       ." order by lastname,firstname";
+$instructors = $DB->get_records_sql($sql,$userParam);
+
+$infoFound=false;
+foreach($instructors as $instructor){
+    #get certification lists (course list with quizzes) for this instructor
+    $params=array();
+    $params['userid']=$instructor->userid;
+    if($courseParam){
+        $params=array_merge($params,$courseParam);
+    }
+    
+    $sql="select e.id courseid,b.contextid,fullname coursename "
+       ." from {user} a"
+       ." right  join {role_assignments} b on b.userid=a.id "
+       ." right join {role} c on c.id=b.roleid "
+       . " left join {context} d on b.contextid=d.id "
+       . " right  join {course} e on e.id=d.instanceid "
+       ." where archetype='teacher' "
+       . $courseWhere
+       . " and a.id=:userid ";
+    
+    $courses=$DB->get_records_sql($sql,$params);
+   
+    if(count($courses)>0){
+        $infoFound=true;
+        echo html_writer::tag("h3",$instructor->lastname.', '.$instructor->firstname);
+                
+        $table = new html_table();
+        $table->head[]="Certification/Course";
+        $table->head[]="Total Tests";
+        $table->head[]="Last 30 Days";
+        $table->head[]="Avg Score";
+        $table->head[]="Avg (30 Days)";
+        $table->head[]="Total Passed";
+        $table->head[]="Total Failed";
+        $table->size=array("22%","13%","13%","13%","13%","13%","13%");
+        
+        foreach($courses as $course){
+            $coursename=$course->coursename;
+            $params=array();
+            $params['contextid']=$course->contextid;
+            $sql="select contextid,max(lowerboundary)passboundary "
+                    . " from {grade_letters} "
+                    . " where contextid=:contextid"
+                    . " group by contextid";
+            $record=$DB->get_record_sql($sql,$params);
+            $minGradeToPassCourse='0';
+            if($record){
+               $minGradeToPassCourse=$record->passboundary;      
+            }   
+            
+            $params=array();
+            $params['mingradetopasscourse']=$minGradeToPassCourse;
+           
+            $params['courseid']=$course->courseid;
+            $sql="select count(1) passed,sum(finalgrade)sumfinalgrades
+                      from {grade_grades} a
+                      right join {grade_items} b on a.itemid=b.id
+                      where itemtype='course'
+                      and userid is not null
+                      and b.courseid=:courseid
+                      and finalgrade>=:mingradetopasscourse";
+            $record=$DB->get_record_sql($sql,$params);
+            $passed=$record->passed;
+            $sumFinalGrades=$record->sumfinalgrades;
+            
+            $params=array();
+            $params['mingradetopasscourse']=$minGradeToPassCourse;
+            $params['courseid']=$course->courseid;
+            $sql="select count(1) failed,sum(finalgrade) sumfinalgrades
+                      from {grade_grades} a
+                      right join {grade_items} b on a.itemid=b.id
+                      where itemtype='course'
+                      and userid is not null
+                      and b.courseid=:courseid
+                      and finalgrade<:mingradetopasscourse";
+            $record=$DB->get_record_sql($sql,$params);
+            $failed=$record->failed;
+            $sumFinalGrades+=$record->sumfinalgrades;
+            $totalTests=$passed+$failed;
+            if($totalTests!='' and $totalTests>0){
+                $avgTestScore=round($sumFinalGrades/$totalTests,2);
+            }
+            else{
+                $avgTestScore=0;
+            }
+            $last30days=" and dateadd(S,a.timemodified,'1970-01-01') between GETDATE()-30 and getdate()";
+            $params=array();
+            $params['courseid']=$course->courseid;
+            $sql="select count(1) totaltests,avg(a.finalgrade)avggrades
+                      from {grade_grades} a
+                      right join {grade_items} b on a.itemid=b.id
+                      where itemtype='course'
+                      and userid is not null
+                      and b.courseid=:courseid
+                      $last30days";
+            $record=$DB->get_record_sql($sql,$params);
+            $totalTestsLast30=$record->totaltests;
+            $avgScoreLast30=round($record->avggrades,2);
+            
+            $table->data[] =array($coursename,$totalTests,$totalTestsLast30,$avgTestScore,$avgScoreLast30,$passed,$failed);
+        }
+        echo html_writer::table($table);
+    }
+}
+
+if(!$infoFound){
+    echo html_writer::tag('div','No results found.');
+}
+echo $OUTPUT->footer();
